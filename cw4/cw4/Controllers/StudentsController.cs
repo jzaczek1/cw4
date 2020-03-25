@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
+using cw4.DAL;
 using cw4.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,22 +11,25 @@ namespace cw4.Controllers
     [Route("api/students")]
     public class StudentsController : ControllerBase
     {
-        private const string name = "Data Source=db-mssql;Initial Catalog=s18593;Integrated Security=True";
-        [HttpGet("{id}")]
-        public IActionResult GetStudents(string id)
+        private IDbService _dbService;
+
+        public StudentsController(IDbService dbService)
+        {
+            _dbService = dbService;
+        }
+
+        [HttpGet]
+        public IActionResult GetStudents([FromServices]IDbService dbService)
         {
             var list = new List<Student>();
-
-            using (var client = new SqlConnection(name))
-            using(var com = new SqlCommand())
+            using (SqlConnection con = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18593;Integrated Security=True"))
+            using (SqlCommand com = new SqlCommand())
             {
-                string zmienna = "111";
-                com.Connection = client;
-                //com.CommandText = $"select Student.IndexNumber, Student.FirstName, Student.LastName, Studies.Name, Enrollment.Semester from Student inner join Enrollment on Student.IdEnrollment = Enrollment.IdEnrollment join Studies on Enrollment.IdStudy = Studies.IdStudy where Student.IndexNumber ={id}";
-                com.CommandText = "select * from Student where IndexNumber=@zmienna";
-                com.Parameters.AddWithValue("zmienna", zmienna);
 
-                client.Open();
+                com.Connection = con;
+                com.CommandText = "select IndexNumber, firstname, lastname, birthdate, name, semester from Student inner join Enrollment on Enrollment.IdEnrollment = Student.IdEnrollment inner join Studies on Enrollment.IdStudy = Studies.IdStudy";
+
+                con.Open();
                 var dr = com.ExecuteReader();
                 while (dr.Read())
                 {
@@ -38,15 +40,48 @@ namespace cw4.Controllers
                     st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
                     st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
                     list.Add(st);
+
                 }
+                con.Close();
             }
+
             return Ok(list);
         }
 
-        [HttpGet]
-        public IActionResult GetStudents()
+        [HttpGet("{IndexNumber}")]
+        public IActionResult GetStudent(string indexNumber)
         {
-            return Ok("Done!");
+            int index = int.Parse(indexNumber);
+            using (SqlConnection con = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18593;Integrated Security=True"))
+            using (SqlCommand com = new SqlCommand())
+            {
+                com.Connection = con;
+                com.CommandText = "Select * from student where IndexNumber =@index";
+                com.Parameters.AddWithValue("index", index);
+
+                con.Open();
+                var dr = com.ExecuteReader();
+                if (dr.Read())
+                {
+                    var st = new Student();
+                    st.IndexNumber = dr["IndexNumber"].ToString();
+                    st.FirstName = dr["FirstName"].ToString();
+                    st.LastName = dr["LastName"].ToString();
+                    st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
+                    st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
+                    return Ok(st);
+
+                }
+                con.Close();
+                return NotFound();
+
+            }
         }
     }
+
+    //[HttpGet]
+    //public IActionResult GetStudents()
+    //{
+    //    return Ok("Done!");
+    //}
 }
