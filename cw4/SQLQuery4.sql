@@ -15,11 +15,11 @@ create procedure promote
 		begin	--https://docs.microsoft.com/en-us/sql/t-sql/language-elements/raiserror-transact-sql?view=sql-server-ver15
 			RAISERROR (15600,-1,-1, 'mysp_CreateCustomer');  
 		end;
-	declare @idEnrollment int = (select IdEnrollment from Enrollment WHERE Semester = (@semestr + 1) AND IdStudy = @zmienna);
+	declare @idEnrollment int = (select IdEnrollment from Enrollment where Semester = (@semestr + 1) and IdStudy = @zmienna);
 	if(@idEnrollment is null)
 		begin
-			insert into Enrollment (IdEnrollment.Semester, IdStudy, StartDate) VALUES (@id, @semestr, @zmienna, GETDATE());
-            set @idEnrollment = (SELECT IdEnrollment FROM Enrollment WHERE Semester = (@semestr + 1) AND IdStudy = @zmienna);
+			insert into Enrollment (IdEnrollment.Semester, IdStudy, StartDate) values (@id, @semestr, @zmienna, GETDATE());
+            set @idEnrollment = (select IdEnrollment from Enrollment where Semester = (@semestr + 1) and IdStudy = @zmienna);
 		end;
-	 UPDATE Student SET IdEnrollment = @idEnrollment WHERE IdEnrollment = (SELECT IdEnrollment FROM Enrollment WHERE Semester = @semestr AND IdStudy = @zmienna)
+	 update Student set IdEnrollment = @idEnrollment where IdEnrollment = (select IdEnrollment from Enrollment where Semester = @semestr and IdStudy = @zmienna)
 	end;
