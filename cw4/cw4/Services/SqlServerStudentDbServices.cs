@@ -86,7 +86,7 @@ namespace cw4.Services
         public Enrollment PromoteStudents([FromBody] StudSem sem)
         {
             using (SqlConnection connection = new SqlConnection("Data Source=db-mssql;Initial Catalog=s18593;Integrated Security=true"))
-            using (SqlCommand command = new SqlCommand("promote", connection))
+            using (SqlCommand command = new SqlCommand())
             {
                 connection.Open();
 
@@ -105,6 +105,28 @@ namespace cw4.Services
                 return e;
             }
         }
-    }
 
+        public bool CheckIndex(String IndexNumber)
+        {
+            bool res = false;
+            using (var connection = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18593;Integrated Security=True"))
+            using (var command = new SqlCommand())
+            {
+                command.Connection = connection;
+                connection.Open();
+
+                command.CommandText = "select 1 from student where IndexNumber = @IndexNumber";
+                command.Parameters.AddWithValue("IndexNumber", IndexNumber);
+
+                var dr = command.ExecuteReader();
+                if (dr.Read())
+                {
+                    res = true;
+                }
+                else
+                    res = false;
+            }
+            return res;
+        }
+    }
 }
