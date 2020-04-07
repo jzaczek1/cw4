@@ -13,6 +13,7 @@ namespace cw4.Services
     {
         public Enrollment EnrollStudent([FromBody] Student Student);
         public Enrollment PromoteStudents([FromBody] StudSem StudeSem);
+        public bool CheckIndex(String IndexNumber);
     }
 
 }

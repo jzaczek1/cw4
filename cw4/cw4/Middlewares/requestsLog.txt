@@ -1,0 +1,78 @@
+Data: 07.04.2020 17:11:50
+GET
+/api/students
+Body is null
+Query is null
+-------------------------
+Data: 07.04.2020 17:11:50
+GET
+/favicon.ico
+Body is null
+Query is null
+-------------------------
+Data: 07.04.2020 17:11:53
+POST
+/api/enrollments/Index=111
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 07.04.2020 17:11:58
+POST
+/api/enrollments
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 07.04.2020 17:12:01
+POST
+/api/enrollments
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 07.04.2020 17:12:09
+POST
+/api/enrollments
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?IndexNumber=111
+-------------------------
+Data: 07.04.2020 17:12:11
+POST
+/api/enrollments
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?IndexNumber=111
+-------------------------
+Data: 07.04.2020 17:12:12
+POST
+/api/enrollments
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?IndexNumber=111
+-------------------------
