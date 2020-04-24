@@ -18,7 +18,7 @@ namespace cw4.Models
         public DateTime BirthDate { get; set; }
         [Required(ErrorMessage = "Musisz podac studia")]
         public string Studies { get; set; }
-
+        public int IdEnrollment { get; internal set; }
 
         public Student() { }
 

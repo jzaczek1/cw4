@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cw4.Services
 {
-    public class FileStudentDbService 
+    public class FileStudentDbService
     {
         public void EnrollStudent(EnrollStudentRequest request)
         {

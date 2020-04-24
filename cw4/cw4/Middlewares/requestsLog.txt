@@ -76,3 +76,221 @@ POST
 }
 ?IndexNumber=111
 -------------------------
+Data: 21.04.2020 09:00:35
+GET
+/api/students
+Body is null
+Query is null
+-------------------------
+Data: 21.04.2020 09:00:35
+GET
+/favicon.ico
+Body is null
+Query is null
+-------------------------
+Data: 21.04.2020 09:00:47
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 21.04.2020 09:00:54
+POST
+/apistudents
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 21.04.2020 09:01:11
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 21.04.2020 09:01:15
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?111
+-------------------------
+Data: 21.04.2020 09:01:19
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?111
+-------------------------
+Data: 21.04.2020 09:01:25
+POST
+/api/students/hej
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 21.04.2020 09:01:36
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 21.04.2020 09:01:38
+GET
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 21.04.2020 09:02:13
+POST
+/api/students
+Body is null
+Query is null
+-------------------------
+Data: 21.04.2020 09:10:50
+POST
+/api/students
+Body is null
+Query is null
+-------------------------
+Data: 21.04.2020 09:13:18
+POST
+/api/students
+Body is null
+Query is null
+-------------------------
+Data: 21.04.2020 09:18:26
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 24.04.2020 21:58:19
+GET
+/api/students
+Body is null
+Query is null
+-------------------------
+Data: 24.04.2020 21:58:19
+GET
+/favicon.ico
+Body is null
+Query is null
+-------------------------
+Data: 24.04.2020 21:58:41
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 24.04.2020 21:58:44
+GET
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 24.04.2020 21:58:51
+GET
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?111
+-------------------------
+Data: 24.04.2020 21:58:53
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?111
+-------------------------
+Data: 24.04.2020 21:59:03
+POST
+/api/students/s1234
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 24.04.2020 21:59:09
+POST
+/api/students/s1234
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+Query is null
+-------------------------
+Data: 24.04.2020 21:59:16
+POST
+/api/students
+{
+	"FirstName": "Maciej",
+	"LastName": "Kowalski",
+	"Studies": "Informatyka",
+	"Semester": 2
+}
+?s1234
+-------------------------

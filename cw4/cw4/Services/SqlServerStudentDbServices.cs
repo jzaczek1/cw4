@@ -1,4 +1,5 @@
 ﻿using cw4.DTOs.Requests;
+using cw4.Encoding;
 using cw4.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,7 +14,7 @@ namespace cw4.Services
     public class SqlServerStudentDbService : ControllerBase, IStudentsDbService
     {
 
-        public Enrollment EnrollStudent([FromBody] Student Student)
+        public Enrollment EnrollStudent(EnrollStudentRequest Student)
         {
             using (SqlConnection connection = new SqlConnection("Data Source=db-mssql;Initial Catalog=s18593;Integrated Security=true"))
             using (SqlCommand command = new SqlCommand())
@@ -83,7 +84,7 @@ namespace cw4.Services
             }
         }
 
-        public Enrollment PromoteStudents([FromBody] StudSem sem)
+        public Enrollment PromoteStudents(EnrollStudentRequest sem)
         {
             using (SqlConnection connection = new SqlConnection("Data Source=db-mssql;Initial Catalog=s18593;Integrated Security=true"))
             using (SqlCommand command = new SqlCommand())
@@ -127,6 +128,154 @@ namespace cw4.Services
                     res = false;
             }
             return res;
+        }
+        public List<string> Login(Login request)
+        {
+            var list = new List<String>();
+            using (var connection = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18593;Integrated Security=True"))
+            using (var command = new SqlCommand())
+            {
+                string salt = "";
+                string password = "";
+
+                string IndexNubmer = "";
+                string FirstName = "";
+                string Role = "";
+                command.Connection = connection;
+                command.CommandText = "Select Salt, Password from Student where Student.IndexNumber=@ID";
+                command.Parameters.AddWithValue("ID", request.ID);
+
+                connection.Open();
+                var dr = command.ExecuteReader();
+                if (!dr.Read())
+                {
+                    dr.Close();
+                    return null;
+                }
+                salt = dr["Salt"].ToString();
+                password = dr["Password"].ToString();
+
+                dr.Close();
+                if (!Encode.Validate(request.Haslo, salt, password))
+                {
+                    return null;
+                }
+                command.CommandText = "Select Student.IndexNumber AS IndexN, FirstName , Role.Role AS Role from Student, Role where Student.IndexNumber=@ID AND Student.Password=@Password AND Student.Role_ID = Role.IndexNumber";
+                command.Parameters.AddWithValue("Password", password);
+
+                dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    IndexNubmer = dr["IndexN"].ToString();
+                    FirstName = dr["FirstName"].ToString();
+                    Role = dr["Role"].ToString();
+                }
+                dr.Close();
+                
+                list.Add(IndexNubmer);
+                list.Add(FirstName);
+                list.Add(Role);
+            }
+            return list;
+        }
+
+
+        public List<String> TokenExists(string requestToken)
+        {
+
+            string IndexNubmer = "";
+            string FirstName = "";
+            string Role = "";
+            var list = new List<String>();
+
+            using (var connection = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18593;Integrated Security=True"))
+            using (var command = new SqlCommand())
+            {
+                command.Connection = connection;
+
+                command.CommandText = "Select Student.IndexNumber AS IndexN, FirstName , Role.Role AS Role from Student, Role where Student.RefreshToken=@Token AND Student.Role_ID = Role.IndexNumber";
+                command.Parameters.AddWithValue("Token", requestToken);
+
+                connection.Open();
+
+                var dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    IndexNubmer = dr["IndexN"].ToString();
+                    FirstName = dr["FirstName"].ToString();
+                    Role = dr["Role"].ToString();
+                }
+                dr.Close();
+            }
+
+            list.Add(IndexNubmer);
+            list.Add(FirstName);
+            list.Add(Role);
+            return (list);
+        }
+
+        public void RefreshToken(string requestToken, string IndexNumber)
+        {
+            using (var connection = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18593;Integrated Security=True"))
+            using (var command = new SqlCommand())
+            {
+                command.Connection = connection;
+
+                command.CommandText = "UPDATE Student SET RefreshToken =@Token WHERE IndexNumber=@IndexNumber";
+                command.Parameters.AddWithValue("IndexNumber", IndexNumber);
+                command.Parameters.AddWithValue("Token", requestToken);
+                connection.Open();
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public bool encodePasswords(string connString)
+        {
+            List<String> list = new List<String>();
+            using (var con = new SqlConnection(connString))
+            using (var com = new SqlCommand())
+
+            {
+                com.Connection = con;
+
+                com.CommandText = "SELECT Password from Student";
+
+                con.Open();
+
+                var dr = com.ExecuteReader();
+                if (!dr.Read())
+                {
+                    dr.Close();
+                    return false;
+                }
+                else
+                {
+                    while (dr.Read())
+                    {
+                        var password = dr["Password"].ToString();
+                        list.Add(password);
+                    }
+                    dr.Close();
+
+                    com.Parameters.AddWithValue("Original", "");
+                    com.Parameters.AddWithValue("Salt", "");
+                    com.Parameters.AddWithValue("Encoded", "");
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        com.CommandText = "UPDATE Student SET Password=@Encoded, Salt=@Salt WHERE Password=@Original";
+
+                        string salt = Encode.CreateSalt();
+                        com.Parameters["Original"].Value = list[i];
+                        com.Parameters["Salt"].Value = salt;
+                        com.Parameters["Encoded"].Value = Encode.Create(list[i], salt);
+
+                        com.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

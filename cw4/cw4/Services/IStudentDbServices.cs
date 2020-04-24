@@ -11,9 +11,14 @@ namespace cw4.Services
 
     public interface IStudentsDbService
     {
-        public Enrollment EnrollStudent([FromBody] Student Student);
-        public Enrollment PromoteStudents([FromBody] StudSem StudeSem);
+        public Enrollment EnrollStudent(EnrollStudentRequest request);
+        public Enrollment PromoteStudents(EnrollStudentRequest request);
         public bool CheckIndex(String IndexNumber);
+        List<String> Login(Login request);
+        List<String> TokenExists(string requestToken);
+        void RefreshToken(string requestToken, string IndexNumber);
+        bool encodePasswords(string connString);
+
     }
 
 }

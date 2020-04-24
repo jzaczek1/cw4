@@ -8,8 +8,8 @@ namespace cw4.DTOs.Requests
 {
     public class EnrollStudentRequest : Attribute
     {
-        [Required(ErrorMessage = "Brakuje indeksu")]
-        public object IndexNumber { get; set; } 
+        [RegularExpression("^(?i)s[0-9]+$")]
+        public string IndexNumber { get; set; }
 
         [Required(ErrorMessage = "Brakuje imienia")]
         public string FirstName { get; set; }
@@ -21,6 +21,7 @@ namespace cw4.DTOs.Requests
 
         [Required]
         public DateTime startDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Required(ErrorMessage = "Brakuje nazwy studiów")]
         public string Studies { get; set; }
